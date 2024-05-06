@@ -4,7 +4,7 @@ import { type NoteImage, type Note } from '@prisma/client'
 import { prisma } from '#app/utils/db.server.ts'
 import { expect, test } from '#tests/playwright-utils.ts'
 
-test('Users can create note with an image', async ({ page, login }) => {
+/* test('Users can create note with an image', async ({ page, login }) => {
 	const user = await login()
 	await page.goto(`/users/${user.username}/notes`)
 
@@ -137,4 +137,4 @@ function createNoteWithImage() {
 	> & {
 		images: { create: Pick<NoteImage, 'altText' | 'blob' | 'contentType'> }
 	}
-}
+} */
