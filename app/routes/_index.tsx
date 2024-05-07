@@ -1,6 +1,6 @@
 import { Link } from '@remix-run/react'
-import SiteHeader from '#app/components/site-header.js'
 import SiteFooter from '#app/components/site-footer.js'
+import SiteHeader from '#app/components/site-header.js'
 
 const Home = () => {
 	return (
@@ -167,14 +167,14 @@ const Home = () => {
 										<MailIcon className="h-6 w-6" />
 										<span>johndoe@example.com</span>
             </Link> */}
-									<Link className="flex items-center gap-2" to="https://github.com/lsbyerley">
+									<a className="flex items-center gap-2" href="https://github.com/lsbyerley" target='_blank' rel='noreferrer noopener'>
 										<GithubIcon className="h-6 w-6" />
 										<span>lsbyerley</span>
-									</Link>
-									<Link className="flex items-center gap-2" to="www.linkedin.com/in/lucas-b-9a817170">
+									</a>
+									<a className="flex items-center gap-2" href="https://linkedin.com/in/lucas-b-9a817170" target='_blank' rel='noreferrer noopener'>
 										<LinkedinIcon className="h-6 w-6" />
 										<span>lucasb</span>
-									</Link>
+									</a>
 								</div>
 							</div>
 						</div>
@@ -227,7 +227,7 @@ function LinkedinIcon(props: any) {
 	)
 }
 
-function MailIcon(props: any) {
+/* function MailIcon(props: any) {
 	return (
 		<svg
 			{...props}
@@ -245,6 +245,6 @@ function MailIcon(props: any) {
 			<path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
 		</svg>
 	)
-}
+} */
 
 export default Home

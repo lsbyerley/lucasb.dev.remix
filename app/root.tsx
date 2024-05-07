@@ -20,7 +20,7 @@ import {
 	useFetcher,
 	useFetchers,
 	useLoaderData,
-	useMatches,
+	// useMatches,
 	useSubmit,
 } from '@remix-run/react'
 import { withSentry } from '@sentry/remix'
@@ -29,7 +29,7 @@ import { HoneypotProvider } from 'remix-utils/honeypot/react'
 import { z } from 'zod'
 import { GeneralErrorBoundary } from './components/error-boundary.tsx'
 import { EpicProgress } from './components/progress-bar.tsx'
-import { SearchBar } from './components/search-bar.tsx'
+// import { SearchBar } from './components/search-bar.tsx'
 import { useToast } from './components/toaster.tsx'
 import { Button } from './components/ui/button.tsx'
 import {
@@ -53,7 +53,7 @@ import { useRequestInfo } from './utils/request-info.ts'
 import { type Theme, setTheme, getTheme } from './utils/theme.server.ts'
 import { makeTimings, time } from './utils/timing.server.ts'
 import { getToast } from './utils/toast.server.ts'
-import { useOptionalUser, useUser } from './utils/user.ts'
+import { /* useOptionalUser, */ useUser } from './utils/user.ts'
 
 export const links: LinksFunction = () => {
 	return [
@@ -222,11 +222,11 @@ function Document({
 function App() {
 	const data = useLoaderData<typeof loader>()
 	const nonce = useNonce()
-	const user = useOptionalUser()
+	// const user = useOptionalUser()
 	const theme = useTheme()
-	const matches = useMatches()
-	const isOnSearchPage = matches.find(m => m.id === 'routes/users+/index')
-	const searchBar = isOnSearchPage ? null : <SearchBar status="idle" />
+	// const matches = useMatches()
+	// const isOnSearchPage = matches.find(m => m.id === 'routes/users+/index')
+	// const searchBar = isOnSearchPage ? null : <SearchBar status="idle" />
 	const allowIndexing = data.ENV.ALLOW_INDEXING !== 'false'
 	useToast(data.toast)
 
@@ -245,19 +245,6 @@ function App() {
 	)
 }
 
-function Logo() {
-	return (
-		<Link to="/" className="group grid leading-snug">
-			<span className="font-light transition group-hover:-translate-x-1">
-				epic
-			</span>
-			<span className="font-bold transition group-hover:translate-x-1">
-				notes
-			</span>
-		</Link>
-	)
-}
-
 function AppWithProviders() {
 	const data = useLoaderData<typeof loader>()
 	return (
@@ -269,7 +256,7 @@ function AppWithProviders() {
 
 export default withSentry(AppWithProviders)
 
-function UserDropdown() {
+export function UserDropdown() {
 	const user = useUser()
 	const submit = useSubmit()
 	const formRef = useRef<HTMLFormElement>(null)

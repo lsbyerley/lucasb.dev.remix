@@ -1,19 +1,16 @@
 import { Link } from '@remix-run/react'
+import { Button } from '#app/components/ui/button.tsx'
 import {
 	SheetTrigger,
 	SheetClose,
 	SheetContent,
 	Sheet,
 } from '#app/components/ui/sheet'
-import { Button } from '#app/components/ui/button.tsx'
 
 const SiteHeader = () => {
 	return (
 		<header className="flex h-14 items-center justify-between px-4 lg:px-6">
-			<div className="flex items-center justify-center">
-				<CodeIcon className="h-6 w-6" />
-				<span className="sr-only">Lucas Byerley</span>
-			</div>
+			<Logo />
 			<Sheet>
 				<SheetTrigger asChild>
 					<Button className="rounded-full" size="icon" variant="outline">
@@ -65,6 +62,17 @@ const SiteHeader = () => {
 				</SheetContent>
 			</Sheet>
 		</header>
+	)
+}
+
+function Logo() {
+	return (
+		<Link to="/" className="group grid leading-snug">
+			<div className="flex items-center justify-center">
+				<CodeIcon className="h-6 w-6" />
+				<span className="sr-only">Lucas Byerley</span>
+			</div>
+		</Link>
 	)
 }
 
