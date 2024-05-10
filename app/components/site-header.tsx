@@ -1,4 +1,5 @@
 import { Link } from '@remix-run/react'
+import { ChevronRight, ChevronLeft } from 'lucide-react';
 import { Button } from '#app/components/ui/button.tsx'
 import {
 	SheetTrigger,
@@ -69,8 +70,20 @@ function Logo() {
 	return (
 		<Link to="/" className="group grid leading-snug">
 			<div className="flex items-center justify-center">
-				<CodeIcon className="h-6 w-6" />
-				<span className="sr-only">Lucas Byerley</span>
+				<ChevronLeft className="mr-[-5px] h-6 w-6" />
+				<span>l</span>
+				<span>u</span>
+				<span>c</span>
+				<span>a</span>
+				<span>s</span>
+				<span>b</span>
+				<span>.</span>
+				<span>d</span>
+				<span>e</span>
+				<span className="mr-1">v</span>
+				<span className="text-sm font-semibold">/</span>
+				<ChevronRight className="ml-[-6px] h-6 w-6" />
+				<span className="sr-only">lucasb.dev</span>
 			</div>
 		</Link>
 	)
