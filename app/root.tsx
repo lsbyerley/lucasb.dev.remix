@@ -41,6 +41,7 @@ import {
 } from './components/ui/dropdown-menu.tsx'
 import { Icon, href as iconsHref } from './components/ui/icon.tsx'
 import { EpicToaster } from './components/ui/sonner.tsx'
+import SiteFooter from '#app/components/site-footer.js'
 import tailwindStyleSheetUrl from './styles/tailwind.css?url'
 import { getUserId, logout } from './utils/auth.server.ts'
 import { ClientHintCheck, getHints, useHints } from './utils/client-hints.tsx'
@@ -54,6 +55,13 @@ import { type Theme, setTheme, getTheme } from './utils/theme.server.ts'
 import { makeTimings, time } from './utils/timing.server.ts'
 import { getToast } from './utils/toast.server.ts'
 import { /* useOptionalUser, */ useUser } from './utils/user.ts'
+import { ChevronRight, ChevronLeft } from 'lucide-react';
+import {
+	SheetTrigger,
+	SheetClose,
+	SheetContent,
+	Sheet,
+} from '#app/components/ui/sheet'
 
 export const links: LinksFunction = () => {
 	return [
@@ -237,8 +245,67 @@ function App() {
 			allowIndexing={allowIndexing}
 			env={data.ENV}
 		>
+			<div className="flex min-h-[100dvh] flex-col">
+			<header className="flex h-14 items-center justify-between px-4 lg:px-6">
+			<Logo />
 			<ThemeSwitch userPreference={data.requestInfo.userPrefs.theme} />
-			<Outlet />
+			<Sheet>
+				<SheetTrigger asChild>
+					<Button className="rounded-full" size="icon" variant="outline">
+						<MenuIcon className="h-6 w-6" />
+						<span className="sr-only">Toggle navigation menu</span>
+					</Button>
+				</SheetTrigger>
+				<SheetContent
+					className="flex flex-col bg-gray-950 p-6 text-gray-50"
+					side="left"
+				>
+					<div className="mb-6 flex items-center justify-between">
+						<div className="flex items-center justify-center">
+							<Logo />
+							<span className="sr-only">Lucas Byerley</span>
+						</div>
+						<SheetClose asChild>
+							<Button className="rounded-full" size="icon" variant="ghost">
+								<XIcon className="h-6 w-6" />
+							</Button>
+						</SheetClose>
+					</div>
+					<nav className="flex flex-col gap-4">
+						<Link
+							className="text-lg font-medium underline-offset-4 hover:underline"
+							to="/"
+						>
+							Home
+						</Link>
+						<Link
+							className="text-lg font-medium underline-offset-4 hover:underline"
+							to="/"
+						>
+							Projects
+						</Link>
+						<Link
+							className="text-lg font-medium underline-offset-4 hover:underline"
+							to="/"
+						>
+							Skills
+						</Link>
+						<Link
+							className="text-lg font-medium underline-offset-4 hover:underline"
+							to="/"
+						>
+							Contact
+						</Link>
+					</nav>
+				</SheetContent>
+			</Sheet>
+		</header>
+				<main className="flex-1">
+					<Outlet />
+				</main>
+				<SiteFooter />
+			</div>
+
 			<EpicToaster closeButton position="top-center" theme={theme} />
 			<EpicProgress />
 		</Document>
@@ -317,6 +384,90 @@ export function UserDropdown() {
 	)
 }
 
+function Logo() {
+	return (
+		<Link to="/" className="group grid leading-snug">
+			<div className="flex items-center justify-center">
+				<ChevronLeft className="mr-[-5px] h-6 w-6" />
+				<span>l</span>
+				<span>u</span>
+				<span>c</span>
+				<span>a</span>
+				<span>s</span>
+				<span>b</span>
+				<span>.</span>
+				<span>d</span>
+				<span>e</span>
+				<span className="mr-1">v</span>
+				<span className="text-sm font-semibold">/</span>
+				<ChevronRight className="ml-[-6px] h-6 w-6" />
+				<span className="sr-only">lucasb.dev</span>
+			</div>
+		</Link>
+	)
+}
+
+function CodeIcon(props: any) {
+	return (
+		<svg
+			{...props}
+			xmlns="http://www.w3.org/2000/svg"
+			width="24"
+			height="24"
+			viewBox="0 0 24 24"
+			fill="none"
+			stroke="currentColor"
+			strokeWidth="2"
+			strokeLinecap="round"
+			strokeLinejoin="round"
+		>
+			<polyline points="16 18 22 12 16 6" />
+			<polyline points="8 6 2 12 8 18" />
+		</svg>
+	)
+}
+
+function MenuIcon(props: any) {
+	return (
+		<svg
+			{...props}
+			xmlns="http://www.w3.org/2000/svg"
+			width="24"
+			height="24"
+			viewBox="0 0 24 24"
+			fill="none"
+			stroke="currentColor"
+			strokeWidth="2"
+			strokeLinecap="round"
+			strokeLinejoin="round"
+		>
+			<line x1="4" x2="20" y1="12" y2="12" />
+			<line x1="4" x2="20" y1="6" y2="6" />
+			<line x1="4" x2="20" y1="18" y2="18" />
+		</svg>
+	)
+}
+
+function XIcon(props: any) {
+	return (
+		<svg
+			{...props}
+			xmlns="http://www.w3.org/2000/svg"
+			width="24"
+			height="24"
+			viewBox="0 0 24 24"
+			fill="none"
+			stroke="currentColor"
+			strokeWidth="2"
+			strokeLinecap="round"
+			strokeLinejoin="round"
+		>
+			<path d="M18 6 6 18" />
+			<path d="m6 6 12 12" />
+		</svg>
+	)
+}
+
 /**
  * @returns the user's theme preference, or the client hint theme if the user
  * has not set a preference.
@@ -350,7 +501,7 @@ export function useOptimisticThemeMode() {
 	}
 }
 
-function ThemeSwitch({ userPreference }: { userPreference?: Theme | null }) {
+export function ThemeSwitch({ userPreference }: { userPreference?: Theme | null }) {
 	const fetcher = useFetcher<typeof action>()
 
 	const [form] = useForm({
