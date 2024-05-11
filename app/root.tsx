@@ -24,9 +24,17 @@ import {
 	useSubmit,
 } from '@remix-run/react'
 import { withSentry } from '@sentry/remix'
+import { ChevronRight, ChevronLeft } from 'lucide-react';
 import { useRef } from 'react'
 import { HoneypotProvider } from 'remix-utils/honeypot/react'
 import { z } from 'zod'
+import SiteFooter from '#app/components/site-footer.js'
+import {
+	SheetTrigger,
+	SheetClose,
+	SheetContent,
+	Sheet,
+} from '#app/components/ui/sheet'
 import { GeneralErrorBoundary } from './components/error-boundary.tsx'
 import { EpicProgress } from './components/progress-bar.tsx'
 // import { SearchBar } from './components/search-bar.tsx'
@@ -41,7 +49,6 @@ import {
 } from './components/ui/dropdown-menu.tsx'
 import { Icon, href as iconsHref } from './components/ui/icon.tsx'
 import { EpicToaster } from './components/ui/sonner.tsx'
-import SiteFooter from '#app/components/site-footer.js'
 import tailwindStyleSheetUrl from './styles/tailwind.css?url'
 import { getUserId, logout } from './utils/auth.server.ts'
 import { ClientHintCheck, getHints, useHints } from './utils/client-hints.tsx'
@@ -55,13 +62,6 @@ import { type Theme, setTheme, getTheme } from './utils/theme.server.ts'
 import { makeTimings, time } from './utils/timing.server.ts'
 import { getToast } from './utils/toast.server.ts'
 import { /* useOptionalUser, */ useUser } from './utils/user.ts'
-import { ChevronRight, ChevronLeft } from 'lucide-react';
-import {
-	SheetTrigger,
-	SheetClose,
-	SheetContent,
-	Sheet,
-} from '#app/components/ui/sheet'
 
 export const links: LinksFunction = () => {
 	return [
@@ -407,7 +407,7 @@ function Logo() {
 	)
 }
 
-function CodeIcon(props: any) {
+export function CodeIcon(props: any) {
 	return (
 		<svg
 			{...props}
