@@ -24,10 +24,10 @@ import {
 	useSubmit,
 } from '@remix-run/react'
 import { withSentry } from '@sentry/remix'
-import { ChevronRight, ChevronLeft } from 'lucide-react';
-import { useRef } from 'react'
+import { useRef, useState } from 'react'
 import { HoneypotProvider } from 'remix-utils/honeypot/react'
 import { z } from 'zod'
+import { LogoIcon, MenuIcon, XIcon } from '#app/components/icons'
 import SiteFooter from '#app/components/site-footer.js'
 import {
 	SheetTrigger,
@@ -37,7 +37,6 @@ import {
 } from '#app/components/ui/sheet'
 import { GeneralErrorBoundary } from './components/error-boundary.tsx'
 import { EpicProgress } from './components/progress-bar.tsx'
-// import { SearchBar } from './components/search-bar.tsx'
 import { useToast } from './components/toaster.tsx'
 import { Button } from './components/ui/button.tsx'
 import {
@@ -237,6 +236,7 @@ function App() {
 	// const searchBar = isOnSearchPage ? null : <SearchBar status="idle" />
 	const allowIndexing = data.ENV.ALLOW_INDEXING !== 'false'
 	useToast(data.toast)
+	const [navOpen, setNavOpen] = useState(false)
 
 	return (
 		<Document
@@ -246,60 +246,72 @@ function App() {
 			env={data.ENV}
 		>
 			<div className="flex min-h-[100dvh] flex-col">
-			<header className="flex h-14 items-center justify-between px-4 lg:px-6">
-			<Logo />
-			<ThemeSwitch userPreference={data.requestInfo.userPrefs.theme} />
-			<Sheet>
-				<SheetTrigger asChild>
-					<Button className="rounded-full" size="icon" variant="outline">
-						<MenuIcon className="h-6 w-6" />
-						<span className="sr-only">Toggle navigation menu</span>
-					</Button>
-				</SheetTrigger>
-				<SheetContent
-					className="flex flex-col bg-gray-950 p-6 text-gray-50"
-					side="left"
-				>
-					<div className="mb-6 flex items-center justify-between">
-						<div className="flex items-center justify-center">
-							<Logo />
-							<span className="sr-only">Lucas Byerley</span>
-						</div>
-						<SheetClose asChild>
-							<Button className="rounded-full" size="icon" variant="ghost">
-								<XIcon className="h-6 w-6" />
+				<header className="flex h-14 items-center justify-between px-4 lg:px-6">
+					<Link to="/" className="group grid leading-snug">
+						<LogoIcon />
+					</Link>
+					<ThemeSwitch userPreference={data.requestInfo.userPrefs.theme} />
+					<Sheet open={navOpen} onOpenChange={setNavOpen}>
+						<SheetTrigger asChild>
+							<Button
+								className="rounded-full"
+								size="icon"
+								variant="outline"
+								aria-controls="nav-menu"
+							>
+								<MenuIcon className="h-6 w-6" />
+								<span className="sr-only">Toggle navigation menu</span>
 							</Button>
-						</SheetClose>
-					</div>
-					<nav className="flex flex-col gap-4">
-						<Link
-							className="text-lg font-medium underline-offset-4 hover:underline"
-							to="/"
+						</SheetTrigger>
+						<SheetContent
+							className="flex flex-col bg-gray-950 p-6 text-gray-50"
+							side="left"
 						>
-							Home
-						</Link>
-						<Link
-							className="text-lg font-medium underline-offset-4 hover:underline"
-							to="/"
-						>
-							Projects
-						</Link>
-						<Link
-							className="text-lg font-medium underline-offset-4 hover:underline"
-							to="/"
-						>
-							Skills
-						</Link>
-						<Link
-							className="text-lg font-medium underline-offset-4 hover:underline"
-							to="/"
-						>
-							Contact
-						</Link>
-					</nav>
-				</SheetContent>
-			</Sheet>
-		</header>
+							<div className="mb-6 flex items-center justify-between">
+								<div className="flex items-center justify-center">
+									<Link to="/" className="group grid leading-snug">
+										<LogoIcon />
+									</Link>
+									<span className="sr-only">Lucas Byerley</span>
+								</div>
+								<SheetClose asChild>
+									<Button className="rounded-full" size="icon" variant="ghost">
+										<XIcon className="h-6 w-6" />
+									</Button>
+								</SheetClose>
+							</div>
+							<nav className="flex flex-col gap-4">
+								<Link
+									className="text-lg font-medium underline-offset-4 hover:underline"
+									to="/"
+								>
+									Home
+								</Link>
+								<Link
+									className="text-lg font-medium underline-offset-4 hover:underline"
+									to="/#section-featuredprojects"
+									onClick={() => setNavOpen(false)}
+								>
+									Projects
+								</Link>
+								<Link
+									className="text-lg font-medium underline-offset-4 hover:underline"
+									to="/#section-skills"
+									onClick={() => setNavOpen(false)}
+								>
+									Skills
+								</Link>
+								<Link
+									className="text-lg font-medium underline-offset-4 hover:underline"
+									to="/#section-contact"
+									onClick={() => setNavOpen(false)}
+								>
+									Contact
+								</Link>
+							</nav>
+						</SheetContent>
+					</Sheet>
+				</header>
 				<main className="flex-1">
 					<Outlet />
 				</main>
@@ -384,90 +396,6 @@ export function UserDropdown() {
 	)
 }
 
-function Logo() {
-	return (
-		<Link to="/" className="group grid leading-snug">
-			<div className="flex items-center justify-center">
-				<ChevronLeft className="mr-[-5px] h-6 w-6" />
-				<span>l</span>
-				<span>u</span>
-				<span>c</span>
-				<span>a</span>
-				<span>s</span>
-				<span>b</span>
-				<span>.</span>
-				<span>d</span>
-				<span>e</span>
-				<span className="mr-1">v</span>
-				<span className="text-sm font-semibold">/</span>
-				<ChevronRight className="ml-[-6px] h-6 w-6" />
-				<span className="sr-only">lucasb.dev</span>
-			</div>
-		</Link>
-	)
-}
-
-export function CodeIcon(props: any) {
-	return (
-		<svg
-			{...props}
-			xmlns="http://www.w3.org/2000/svg"
-			width="24"
-			height="24"
-			viewBox="0 0 24 24"
-			fill="none"
-			stroke="currentColor"
-			strokeWidth="2"
-			strokeLinecap="round"
-			strokeLinejoin="round"
-		>
-			<polyline points="16 18 22 12 16 6" />
-			<polyline points="8 6 2 12 8 18" />
-		</svg>
-	)
-}
-
-function MenuIcon(props: any) {
-	return (
-		<svg
-			{...props}
-			xmlns="http://www.w3.org/2000/svg"
-			width="24"
-			height="24"
-			viewBox="0 0 24 24"
-			fill="none"
-			stroke="currentColor"
-			strokeWidth="2"
-			strokeLinecap="round"
-			strokeLinejoin="round"
-		>
-			<line x1="4" x2="20" y1="12" y2="12" />
-			<line x1="4" x2="20" y1="6" y2="6" />
-			<line x1="4" x2="20" y1="18" y2="18" />
-		</svg>
-	)
-}
-
-function XIcon(props: any) {
-	return (
-		<svg
-			{...props}
-			xmlns="http://www.w3.org/2000/svg"
-			width="24"
-			height="24"
-			viewBox="0 0 24 24"
-			fill="none"
-			stroke="currentColor"
-			strokeWidth="2"
-			strokeLinecap="round"
-			strokeLinejoin="round"
-		>
-			<path d="M18 6 6 18" />
-			<path d="m6 6 12 12" />
-		</svg>
-	)
-}
-
 /**
  * @returns the user's theme preference, or the client hint theme if the user
  * has not set a preference.
@@ -501,7 +429,11 @@ export function useOptimisticThemeMode() {
 	}
 }
 
-export function ThemeSwitch({ userPreference }: { userPreference?: Theme | null }) {
+export function ThemeSwitch({
+	userPreference,
+}: {
+	userPreference?: Theme | null
+}) {
 	const fetcher = useFetcher<typeof action>()
 
 	const [form] = useForm({
