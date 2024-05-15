@@ -6,7 +6,6 @@ import {
 	type MetaFunction,
 } from '@remix-run/node'
 import {
-	Form,
 	Link,
 	Links,
 	Meta,
@@ -14,45 +13,36 @@ import {
 	Scripts,
 	ScrollRestoration,
 	useLoaderData,
-	useSubmit,
 } from '@remix-run/react'
 import { withSentry } from '@sentry/remix'
-import { useRef, useState } from 'react'
+import { useState } from 'react'
 import { HoneypotProvider } from 'remix-utils/honeypot/react'
+import { GeneralErrorBoundary } from '#app/components/error-boundary.tsx'
 import { LogoIcon, MenuIcon, XIcon } from '#app/components/icons'
+import { EpicProgress } from '#app/components/progress-bar.tsx'
 import SiteFooter from '#app/components/site-footer.js'
+import { useToast } from '#app/components/toaster.tsx'
+import { Button } from '#app/components/ui/button.tsx'
+import { href as iconsHref } from '#app/components/ui/icon.tsx'
 import {
 	SheetTrigger,
 	SheetClose,
 	SheetContent,
 	Sheet,
 } from '#app/components/ui/sheet'
-import { GeneralErrorBoundary } from '#app/components/error-boundary.tsx'
-import { EpicProgress } from '#app/components/progress-bar.tsx'
-import { useToast } from '#app/components/toaster.tsx'
-import { Button } from '#app/components/ui/button.tsx'
-import {
-	DropdownMenu,
-	DropdownMenuContent,
-	DropdownMenuItem,
-	DropdownMenuPortal,
-	DropdownMenuTrigger,
-} from '#app/components/ui/dropdown-menu.tsx'
-import { Icon, href as iconsHref } from '#app/components/ui/icon.tsx'
 import { EpicToaster } from '#app/components/ui/sonner.tsx'
-import tailwindStyleSheetUrl from './styles/tailwind.css?url'
+import { ThemeSwitch, useTheme } from '#app/routes/resources+/theme'
 import { getUserId, logout } from '#app/utils/auth.server.ts'
 import { ClientHintCheck, getHints } from '#app/utils/client-hints.tsx'
 import { prisma } from '#app/utils/db.server.ts'
 import { getEnv } from '#app/utils/env.server.ts'
 import { honeypot } from '#app/utils/honeypot.server.ts'
-import { combineHeaders, getDomainUrl, getUserImgSrc } from '#app/utils/misc.tsx'
+import { combineHeaders, getDomainUrl } from '#app/utils/misc.tsx'
 import { useNonce } from '#app/utils/nonce-provider.ts'
 import { type Theme, getTheme } from '#app/utils/theme.server.ts'
 import { makeTimings, time } from '#app/utils/timing.server.ts'
 import { getToast } from '#app/utils/toast.server.ts'
-import { useUser } from '#app/utils/user.ts'
-import { ThemeSwitch, useTheme } from '#app/routes/resources+/theme'
+import tailwindStyleSheetUrl from './styles/tailwind.css?url'
 
 export const links: LinksFunction = () => {
 	return [
@@ -306,67 +296,6 @@ function AppWithProviders() {
 }
 
 export default withSentry(AppWithProviders)
-
-export function UserDropdown() {
-	const user = useUser()
-	const submit = useSubmit()
-	const formRef = useRef<HTMLFormElement>(null)
-	return (
-		<DropdownMenu>
-			<DropdownMenuTrigger asChild>
-				<Button asChild variant="secondary">
-					<Link
-						to={`/users/${user.username}`}
-						// this is for progressive enhancement
-						onClick={e => e.preventDefault()}
-						className="flex items-center gap-2"
-					>
-						<img
-							className="h-8 w-8 rounded-full object-cover"
-							alt={user.name ?? user.username}
-							src={getUserImgSrc(user.image?.id)}
-						/>
-						<span className="text-body-sm font-bold">
-							{user.name ?? user.username}
-						</span>
-					</Link>
-				</Button>
-			</DropdownMenuTrigger>
-			<DropdownMenuPortal>
-				<DropdownMenuContent sideOffset={8} align="start">
-					<DropdownMenuItem asChild>
-						<Link prefetch="intent" to={`/users/${user.username}`}>
-							<Icon className="text-body-md" name="avatar">
-								Profile
-							</Icon>
-						</Link>
-					</DropdownMenuItem>
-					<DropdownMenuItem asChild>
-						<Link prefetch="intent" to={`/users/${user.username}/notes`}>
-							<Icon className="text-body-md" name="pencil-2">
-								Notes
-							</Icon>
-						</Link>
-					</DropdownMenuItem>
-					<DropdownMenuItem
-						asChild
-						// this prevents the menu from closing before the form submission is completed
-						onSelect={event => {
-							event.preventDefault()
-							submit(formRef.current)
-						}}
-					>
-						<Form action="/logout" method="POST" ref={formRef}>
-							<Icon className="text-body-md" name="exit">
-								<button type="submit">Logout</button>
-							</Icon>
-						</Form>
-					</DropdownMenuItem>
-				</DropdownMenuContent>
-			</DropdownMenuPortal>
-		</DropdownMenu>
-	)
-}
 
 export function ErrorBoundary() {
 	// the nonce doesn't rely on the loader so we can access that
