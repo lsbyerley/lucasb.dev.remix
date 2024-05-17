@@ -1,4 +1,5 @@
 import { useFormAction, useNavigation } from '@remix-run/react'
+import { useHydrated } from 'remix-utils/use-hydrated'
 import { clsx, type ClassValue } from 'clsx'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { useSpinDelay } from 'spin-delay'
@@ -11,6 +12,33 @@ export function getUserImgSrc(imageId?: string | null) {
 
 export function getNoteImgSrc(imageId: string) {
 	return `/resources/note-images/${imageId}`
+}
+
+// credit: https://www.jacobparis.com/content/remix-progressive-client-only
+export function ProgressiveClientOnly({
+	children,
+	className = '',
+	defaultShow = false,
+}: {
+	children: React.ReactNode | (() => React.ReactNode)
+	className?: string
+	defaultShow?: boolean
+}) {
+	const isHydrated = useHydrated()
+	return (
+		<div
+			className={
+				isHydrated
+					? className
+					: defaultShow
+						? // Create these animations in CSS or your tailwind config
+							'[animation:disappear_1000ms]'
+						: '[animation:appear_1000ms]'
+			}
+		>
+			{typeof children === 'function' ? children() : children}
+		</div>
+	)
 }
 
 export function getErrorMessage(error: unknown) {

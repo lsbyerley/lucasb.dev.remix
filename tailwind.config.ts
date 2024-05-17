@@ -25,6 +25,30 @@ export const marketingPreset = {
 				'slide-left': 'slide-left 0.3s ease-out',
 				'slide-top': 'slide-top 0.3s ease-out',
 			},
+			appear: {
+				"0%, 99%": {
+					height: "0",
+					width: "0",
+					opacity: "0",
+				},
+				"100%": {
+					height: "auto",
+					width: "auto",
+					opacity: "1",
+				},
+			},
+			disappear: {
+				"0%, 99%": {
+					height: "auto",
+					width: "auto",
+					opacity: "1",
+				},
+				"100%": {
+					height: "0",
+					width: "0",
+					opacity: "0",
+				},
+			},
 		},
 	},
 } satisfies Omit<Config, 'content'>
