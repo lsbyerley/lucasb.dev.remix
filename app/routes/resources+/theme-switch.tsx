@@ -70,7 +70,7 @@ export function ThemeSwitch({
 	}
 
 	return (
-		<fetcher.Form method="POST" {...getFormProps(form)} action='/resources/theme'>
+		<fetcher.Form method="POST" {...getFormProps(form)} action='/resources/theme-switch'>
 			<input type="hidden" name="theme" value={nextMode} />
 			<div className="flex gap-2">
 				<button
@@ -90,7 +90,7 @@ export function ThemeSwitch({
  */
 export function useOptimisticThemeMode() {
 	const fetchers = useFetchers()
-	const themeFetcher = fetchers.find(f => f.formAction === '/')
+	const themeFetcher = fetchers.find(f => f.formAction === '/resources/theme-switch')
 
 	if (themeFetcher && themeFetcher.formData) {
 		const submission = parseWithZod(themeFetcher.formData, {
