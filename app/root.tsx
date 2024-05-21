@@ -31,7 +31,7 @@ import {
 	Sheet,
 } from '#app/components/ui/sheet'
 import { EpicToaster } from '#app/components/ui/sonner.tsx'
-import { ThemeSwitch, useTheme } from '#app/routes/resources+/theme'
+import { ThemeSwitch, useTheme } from '#app/routes/resources+/theme-switch.js'
 import { getUserId, logout } from '#app/utils/auth.server.ts'
 import { ClientHintCheck, getHints } from '#app/utils/client-hints.tsx'
 import { prisma } from '#app/utils/db.server.ts'

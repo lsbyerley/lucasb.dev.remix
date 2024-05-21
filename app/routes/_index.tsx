@@ -1,9 +1,8 @@
 import { LinkedinIcon, GithubIcon } from "#app/components/icons.js"
 
-const Home = () => {
+const HeroOne = () => {
 	return (
-		<>
-			<section className="w-full py-12 md:py-24 lg:py-32 xl:py-48">
+		<section className="w-full py-12 md:py-24 lg:py-32 xl:py-48">
 				<div className="container px-4 md:px-6">
 					<div className="flex flex-col items-center space-y-4 text-center">
 						<div className="space-y-2">
@@ -21,6 +20,45 @@ const Home = () => {
 					</div>
 				</div>
 			</section>
+	)
+};
+
+export const HeroTwo = () => {
+	return (
+		<section className="w-full border-b py-12 md:py-24 lg:py-32">
+			<div className="container grid gap-6 px-4 md:px-6 lg:grid-cols-2 lg:gap-12 xl:gap-20">
+				<div className="flex flex-col items-start justify-center space-y-4">
+					<h1 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl">
+						Lucas Byerley
+					</h1>
+					<h2 className="text-2xl font-medium text-gray-500 dark:text-gray-400 sm:text-3xl">
+						Senior Software Engineer | Sports & Web3 Enthusiast
+					</h2>
+					<p className="max-w-[600px] text-gray-500 dark:text-gray-400 md:text-xl">
+					I create clean, modern, and responsive web applications that
+								deliver exceptional user experiences.
+					</p>
+				</div>
+				<img
+					alt="Lucas Byerley"
+					className="mx-auto rounded-full object-cover"
+					height="400"
+					src="https://avatars.githubusercontent.com/u/3066258"
+					style={{
+						aspectRatio: '400/400',
+						objectFit: 'cover',
+					}}
+					width="400"
+				/>
+			</div>
+		</section>
+	)
+};
+
+const Home = () => {
+	return (
+		<>
+			<HeroOne />
 			<section
 				id="section-featuredprojects"
 				className="w-full bg-gray-100 py-12 dark:bg-gray-800 md:py-24 lg:py-32"
