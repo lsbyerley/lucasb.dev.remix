@@ -8,5 +8,4 @@ test('Test home page loads properly', async ({ page }) => {
 
 	// TODO: screenshot differs in pipeline
 	// await expect(page).toHaveScreenshot({ fullPage: true });
-	// await expect(page.getByText(/Lucas Byerley/i)).toBeVisible()
 })

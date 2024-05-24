@@ -69,10 +69,10 @@ export const links: LinksFunction = () => {
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
 	return [
-		{ title: data ? 'lucasb.dev' : 'Error | lucasb.dev' },
+		{ title: data ? 'lucasb.dev | home' : 'Error | lucasb.dev' },
 		{
 			name: 'description',
-			content: `Personal website for software engineer lucas byerley`,
+			content: `Personal website for software engineer lucas b`,
 		},
 	]
 }
@@ -234,7 +234,7 @@ function App() {
 									<Link to="/" className="group grid leading-snug">
 										<LogoIcon />
 									</Link>
-									<span className="sr-only">Lucas Byerley</span>
+									<span className="sr-only">Lucas B</span>
 								</div>
 								<SheetClose asChild>
 									<Button className="rounded-full" size="icon" variant="ghost">
