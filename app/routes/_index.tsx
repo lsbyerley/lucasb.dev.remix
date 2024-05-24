@@ -7,10 +7,10 @@ const HeroOne = () => {
 					<div className="flex flex-col items-center space-y-4 text-center">
 						<div className="space-y-2">
 							<h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl/none">
-								Lucas Byerley
+								Lucas B
 							</h1>
 							<p className="mx-auto max-w-[700px] text-gray-500 dark:text-gray-400 md:text-xl">
-								Senior Software Engineer | Sports & Web3 Enthusiast
+								Senior Software Engineer | Sports fan & Web3 enthusiast
 							</p>
 							<p className="mx-auto max-w-[700px] text-gray-500 dark:text-gray-400 md:text-xl">
 								I create clean, modern, and responsive web applications that
@@ -29,10 +29,10 @@ export const HeroTwo = () => {
 			<div className="container grid gap-6 px-4 md:px-6 lg:grid-cols-2 lg:gap-12 xl:gap-20">
 				<div className="flex flex-col items-start justify-center space-y-4">
 					<h1 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl">
-						Lucas Byerley
+						Lucas B
 					</h1>
 					<h2 className="text-2xl font-medium text-gray-500 dark:text-gray-400 sm:text-3xl">
-						Senior Software Engineer | Sports & Web3 Enthusiast
+						Senior Software Engineer | Sports Fan & Web3 Enthusiast
 					</h2>
 					<p className="max-w-[600px] text-gray-500 dark:text-gray-400 md:text-xl">
 					I create clean, modern, and responsive web applications that
@@ -40,7 +40,7 @@ export const HeroTwo = () => {
 					</p>
 				</div>
 				<img
-					alt="Lucas Byerley"
+					alt="Lucas B"
 					className="mx-auto rounded-full object-cover"
 					height="400"
 					src="https://avatars.githubusercontent.com/u/3066258"
@@ -193,7 +193,7 @@ const Home = () => {
 									rel="noreferrer noopener"
 								>
 									<GithubIcon className="h-6 w-6" />
-									<span>lsbyerley</span>
+									<span>lucasb</span>
 								</a>
 								<a
 									className="flex items-center gap-2"
