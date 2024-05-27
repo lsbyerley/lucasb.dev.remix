@@ -23,7 +23,6 @@ import { EpicProgress } from '#app/components/progress-bar.tsx'
 import SiteFooter from '#app/components/site-footer.js'
 import { useToast } from '#app/components/toaster.tsx'
 import { Button } from '#app/components/ui/button.tsx'
-import { href as iconsHref } from '#app/components/ui/icon.tsx'
 import {
 	SheetTrigger,
 	SheetClose,
@@ -46,8 +45,6 @@ import tailwindStyleSheetUrl from './styles/tailwind.css?url'
 
 export const links: LinksFunction = () => {
 	return [
-		// Preload svg sprite as a resource to avoid render blocking
-		{ rel: 'preload', href: iconsHref, as: 'image' },
 		// Preload CSS as a resource to avoid render blocking
 		{ rel: 'icon', type: 'image/png', href: '/favicons/favicon-32x32.png' },
 		{

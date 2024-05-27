@@ -66,7 +66,7 @@ const Home = () => {
 				<div className="container px-4 md:px-6">
 					<div className="flex flex-col items-center justify-center space-y-4 text-center">
 						<div className="space-y-2">
-							<div className="inline-block rounded-lg bg-gray-50 px-3 py-1 text-sm dark:bg-gray-800">
+							<div className="inline-block rounded-lg bg-gray-50 px-3 py-1 text-sm dark:bg-gray-900">
 								Featured Projects
 							</div>
 							<h2
@@ -193,7 +193,6 @@ const Home = () => {
 									rel="noreferrer noopener"
 								>
 									<GithubIcon className="h-6 w-6" />
-									<span>lucasb</span>
 								</a>
 								<a
 									className="flex items-center gap-2"
@@ -202,7 +201,6 @@ const Home = () => {
 									rel="noreferrer noopener"
 								>
 									<LinkedinIcon className="h-6 w-6" />
-									<span>lucasb</span>
 								</a>
 							</div>
 						</div>
