@@ -1,10 +1,8 @@
-import type { HeadersFunction, LoaderFunctionArgs, ActionFunctionArgs } from "@remix-run/node";
-import { json } from '@remix-run/node';
-import { MetaFunction, useLoaderData, isRouteErrorResponse, useRouteError } from "@remix-run/react";
-import type { ShouldRevalidateFunction } from "@remix-run/react";
+import  { type HeadersFunction, type LoaderFunctionArgs, type ActionFunctionArgs , json } from "@remix-run/node";
+import { type MetaFunction, useLoaderData, isRouteErrorResponse, useRouteError ,type  ShouldRevalidateFunction } from "@remix-run/react";
+import { Avatar, AvatarFallback, AvatarImage } from "#app/components/ui/avatar"
 import { Button } from "#app/components/ui/button";
 import { Card } from "#app/components/ui/card";
-import { Avatar, AvatarFallback, AvatarImage } from "#app/components/ui/avatar"
 
 
 interface VCActivityType {
