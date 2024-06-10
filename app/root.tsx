@@ -267,6 +267,13 @@ function App() {
 								>
 									Contact
 								</Link>
+								<Link
+									className="text-lg font-medium underline-offset-4 hover:underline"
+									to="/bucnation"
+									onClick={() => setNavOpen(false)}
+								>
+									Buc Nation
+								</Link>
 							</nav>
 						</SheetContent>
 					</Sheet>
