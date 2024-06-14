@@ -74,16 +74,63 @@ const heightFromInches = (total: number) => {
 }
 
 const games = [
-  {
-    opponent: 'TBD',
-    date: 'November 18, 2024',
-    score: {
-      home: 0,
-      away: 0,
-    },
-    image: 'https://generated.vusercontent.net/placeholder.svg',
-  },
-];
+	{
+		opponent: 'TBD',
+		date: 'November 18, 2024',
+		score: {
+			home: 0,
+			away: 0,
+		},
+		image: 'https://generated.vusercontent.net/placeholder.svg',
+	},
+]
+
+const stats = [
+	{
+		firstName: 'Tester',
+		lastName: 'McNester',
+		position: 'SF',
+		height: '6\'9"',
+		points: 27.4,
+		rebounds: 7.8,
+		assists: 7.2,
+		blocks: 1.1,
+		steals: 1.3,
+	},
+	{
+		firstName: 'Tester',
+		lastName: 'McNester',
+		position: 'SF',
+		height: '6\'9"',
+		points: 27.4,
+		rebounds: 7.8,
+		assists: 7.2,
+		blocks: 1.1,
+		steals: 1.3,
+	},
+	{
+		firstName: 'Tester',
+		lastName: 'McNester',
+		position: 'SF',
+		height: '6\'9"',
+		points: 27.4,
+		rebounds: 7.8,
+		assists: 7.2,
+		blocks: 1.1,
+		steals: 1.3,
+	},
+	{
+		firstName: 'Tester',
+		lastName: 'McNester',
+		position: 'SF',
+		height: '6\'9"',
+		points: 27.4,
+		rebounds: 7.8,
+		assists: 7.2,
+		blocks: 1.1,
+		steals: 1.3,
+	},
+]
 
 export default function BucNation() {
 	const data = useLoaderData<typeof loader>()
@@ -93,7 +140,7 @@ export default function BucNation() {
 			defaultValue="roster"
 			className="mx-auto w-full max-w-6xl px-4 py-8 md:px-6"
 		>
-			<header className="mb-8 flex flex-col sm:flex-row items-center justify-between">
+			<header className="mb-8 flex flex-col items-center justify-between sm:flex-row">
 				<div className="flex items-center gap-4">
 					<img
 						src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/East_Tennessee_State_Buccaneers_logo.svg/400px-East_Tennessee_State_Buccaneers_logo.svg.png"
@@ -107,15 +154,17 @@ export default function BucNation() {
 						<span className="text-yellow-500">Buccaneers</span> Basketball
 					</h1>
 				</div>
-				<TabsList className='mt-4 sm:mt-0'>
+				<TabsList className="mt-4 sm:mt-0">
 					<TabsTrigger value="roster">Roster</TabsTrigger>
 					<TabsTrigger value="schedule">Schedule</TabsTrigger>
-          <TabsTrigger value="stats">Stats</TabsTrigger>
+					<TabsTrigger value="stats">Stats</TabsTrigger>
 				</TabsList>
 			</header>
 
 			<TabsContent value="roster">
-      <h2 className="my-8 text-xl font-bold text-center sm:text-left">Roster</h2>
+				<h2 className="my-8 text-center text-xl font-bold sm:text-left">
+					Roster
+				</h2>
 				<div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
 					{data.roster.map(r => {
 						return (
@@ -148,8 +197,9 @@ export default function BucNation() {
 				</div>
 			</TabsContent>
 			<TabsContent value="schedule">
-				<h2 className="my-8 text-xl font-bold text-center sm:text-left">Schedule</h2>
-        <p>Coming soon..</p>
+				<h2 className="my-8 text-center text-xl font-bold sm:text-left">
+					Schedule (coming soon..)
+				</h2>
 				<div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
 					{games.map((game, index) => (
 						<Card key={index} className="p-4">
@@ -184,10 +234,72 @@ export default function BucNation() {
 					))}
 				</div>
 			</TabsContent>
-      <TabsContent value='stats'>
-        <h2 className="my-8 text-xl font-bold text-center sm:text-left">Stats</h2>
-        <p>Coming soon..</p>
-      </TabsContent>
+			<TabsContent value="stats">
+				<h2 className="my-8 text-center text-xl font-bold sm:text-left">
+					Player Stats (coming soon)
+				</h2>
+				<div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+					{stats.map((player, index) => (
+						<div
+							key={index}
+							className="flex flex-col gap-6 rounded-lg bg-white p-6 shadow-md dark:bg-gray-950"
+						>
+							<div className="flex items-center justify-between">
+								<div className="flex items-center gap-4">
+									<h3 className="text-xl font-bold">
+										{player.firstName[0].toUpperCase()}. {player.lastName}
+									</h3>
+									<span className="text-sm text-gray-500 dark:text-gray-400">
+										{player.position} | {player.height}
+									</span>
+								</div>
+							</div>
+							<div className="grid grid-cols-5 gap-4">
+								<div className="flex flex-col items-end">
+									<span className="text-sm text-gray-500 dark:text-gray-400">
+										Pts
+									</span>
+									<span className="font-medium">
+										{player.points.toFixed(1)}
+									</span>
+								</div>
+								<div className="flex flex-col items-end">
+									<span className="text-sm text-gray-500 dark:text-gray-400">
+										Reb
+									</span>
+									<span className="font-medium">
+										{player.rebounds.toFixed(1)}
+									</span>
+								</div>
+								<div className="flex flex-col items-end">
+									<span className="text-sm text-gray-500 dark:text-gray-400">
+										Ast
+									</span>
+									<span className="font-medium">
+										{player.assists.toFixed(1)}
+									</span>
+								</div>
+								<div className="flex flex-col items-end">
+									<span className="text-sm text-gray-500 dark:text-gray-400">
+										Blk
+									</span>
+									<span className="font-medium">
+										{player.blocks.toFixed(1)}
+									</span>
+								</div>
+								<div className="flex flex-col items-end">
+									<span className="text-sm text-gray-500 dark:text-gray-400">
+										Stl
+									</span>
+									<span className="font-medium">
+										{player.steals.toFixed(1)}
+									</span>
+								</div>
+							</div>
+						</div>
+					))}
+				</div>
+			</TabsContent>
 		</Tabs>
 	)
 }
