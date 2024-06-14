@@ -1,6 +1,7 @@
 {
-	"name": "Epic Notes",
-	"short_name": "Epic Notes",
+	"name": "lucasb.dev",
+	"short_name": "lucasb.dev",
+	"description": "Personal website for software engineer lucas b",
 	"start_url": "/",
 	"icons": [
 		{
