@@ -20,16 +20,50 @@ import {
 	TabsTrigger,
 } from '#app/components/ui/tabs'
 
-interface VCActivityType {
-	id: number
-	activeFlag: string
-	status: string
-	playerFirstName: string
-	playerLastName: string
-	playerPosition: string
-	playerWeightLbs: number
-	playerHeightInches: number
-	playerEligibilityYear: string
+interface RosterItem {
+	name: string
+	position: string
+	height: string
+	weight: string
+	year: string
+	headshot: string
+}
+
+interface RosterApiRes {
+	type: string
+	roster: RosterItem[]
+}
+
+interface ScheduleItem {
+	opponent: string
+	vsat: string
+	date: string
+	time: string
+	result: string
+	score: string
+	opponentLogo: string
+}
+
+interface ScheduleApiRes {
+	type: string
+	schedule: ScheduleItem[]
+}
+
+interface StatsItem {
+	assists: string
+	firstName: string
+	lastName: string
+	minutes: string
+	points: string
+	rebounds: string
+	steals: string
+	fgPercent: string
+	threePercent: string
+}
+
+interface StatsApiRes {
+	type: string
+	stats: StatsItem[]
 }
 
 export const meta: MetaFunction = ({ data }) => [
@@ -45,22 +79,23 @@ export const headers: HeadersFunction = () => ({
 })
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
-	const reqHeaders = {
-		Pb: 'iKi6oAQ2TmqZBqDc',
-		'User-Agent':
-			'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36',
-	}
+	const hoopsApi = process.env.HOOPS_API;
+	const responsePromises = await Promise.all([
+		fetch(`${hoopsApi}/api/etsu/roster`),
+		fetch(`${hoopsApi}/api/etsu/schedule`),
+		fetch(`${hoopsApi}/api/etsu/stats`),
+	])
 
-	const response = await fetch(
-		'https://api.verbalcommits.com/vc/schools/chart/etsu',
-		{
-			headers: reqHeaders,
-		},
-	)
-	const data = (await response.json()) as VCActivityType[]
-	const filteredResults = data.filter(d => d.status === 'ENROLLMENT')
+	const responseData = (await Promise.all(
+		responsePromises.map(response => response.json()),
+	)) as [RosterApiRes, ScheduleApiRes, StatsApiRes]
+	// console.log('LOG: loaderData', responseData)
 
-	return json({ roster: filteredResults })
+	return json({
+		roster: responseData[0],
+		schedule: responseData[1],
+		stats: responseData[2],
+	})
 }
 
 export const action = async ({ request }: ActionFunctionArgs) => {
@@ -73,67 +108,8 @@ const heightFromInches = (total: number) => {
 	return `${feet}'${inches}"`
 }
 
-const games = [
-	{
-		opponent: 'TBD',
-		date: 'November 18, 2024',
-		score: {
-			home: 0,
-			away: 0,
-		},
-		image: 'https://generated.vusercontent.net/placeholder.svg',
-	},
-]
-
-const stats = [
-	{
-		firstName: 'Tester',
-		lastName: 'McNester',
-		position: 'SF',
-		height: '6\'9"',
-		points: 27.4,
-		rebounds: 7.8,
-		assists: 7.2,
-		blocks: 1.1,
-		steals: 1.3,
-	},
-	{
-		firstName: 'Tester',
-		lastName: 'McNester',
-		position: 'SF',
-		height: '6\'9"',
-		points: 27.4,
-		rebounds: 7.8,
-		assists: 7.2,
-		blocks: 1.1,
-		steals: 1.3,
-	},
-	{
-		firstName: 'Tester',
-		lastName: 'McNester',
-		position: 'SF',
-		height: '6\'9"',
-		points: 27.4,
-		rebounds: 7.8,
-		assists: 7.2,
-		blocks: 1.1,
-		steals: 1.3,
-	},
-	{
-		firstName: 'Tester',
-		lastName: 'McNester',
-		position: 'SF',
-		height: '6\'9"',
-		points: 27.4,
-		rebounds: 7.8,
-		assists: 7.2,
-		blocks: 1.1,
-		steals: 1.3,
-	},
-]
-
 export default function BucNation() {
-	const data = useLoaderData<typeof loader>()
+	const { roster, schedule, stats } = useLoaderData<typeof loader>()
 
 	return (
 		<Tabs
@@ -166,28 +142,22 @@ export default function BucNation() {
 					Roster
 				</h2>
 				<div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-					{data.roster.map(r => {
+					{roster.roster.map(r => {
 						return (
-							<Card className="p-4" key={r.id}>
+							<Card className="p-4" key={r.name}>
 								<div className="flex items-center gap-4">
 									<Avatar>
 										<AvatarImage
-											src="/placeholder.svg"
-											alt={`${r.playerFirstName} ${r.playerLastName}`}
+											src={`https://etsubucs.com/${r.headshot}`}
+											alt={`${r.name}`}
 										/>
-										<AvatarFallback>
-											{r.playerFirstName[0].toUpperCase()}
-											{r.playerLastName[0].toUpperCase()}
-										</AvatarFallback>
+										<AvatarFallback>{r.name[0].toUpperCase()}</AvatarFallback>
 									</Avatar>
 									<div>
-										<h3 className="text-lg font-semibold">
-											{r.playerFirstName} {r.playerLastName}
-										</h3>
+										<h3 className="text-lg font-semibold">{r.name}</h3>
 										<p className="text-gray-500 dark:text-gray-400">
-											{r.playerPosition} |{' '}
-											{heightFromInches(r.playerHeightInches)} |{' '}
-											{r.playerWeightLbs} Lbs
+											{r.position} | {r.height}
+											{r.weight}
 										</p>
 									</div>
 								</div>
@@ -198,35 +168,31 @@ export default function BucNation() {
 			</TabsContent>
 			<TabsContent value="schedule">
 				<h2 className="my-8 text-center text-xl font-bold sm:text-left">
-					Schedule (coming soon..)
+					Schedule
 				</h2>
-				<div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-					{games.map((game, index) => (
+				<div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3">
+					{schedule.schedule.map((item, index: number) => (
 						<Card key={index} className="p-4">
 							<div className="flex flex-col gap-4">
 								<div className="flex items-center justify-between">
 									<div className="flex items-center gap-4">
-										<img
-											src="https://generated.vusercontent.net/placeholder.svg"
-											alt={`Opponent ${index + 1}`}
-											width={40}
-											height={40}
-											className="h-10 w-10 rounded-full"
-										/>
+										<Avatar>
+											<AvatarImage
+												src={`https://etsubucs.com/${item.opponentLogo}`}
+												alt={`${item.opponent}`}
+											/>
+											<AvatarFallback>{item.vsat}</AvatarFallback>
+										</Avatar>
 										<div>
-											<h3 className="text-lg font-semibold">{game.opponent}</h3>
+											<h3 className="text-lg font-semibold">{item.opponent}</h3>
 											<p className="text-gray-500 dark:text-gray-400">
-												{game.date}
+												{item.date}
 											</p>
 										</div>
 									</div>
 									<div className="flex items-center gap-2">
-										<div className="text-lg font-semibold">
-											{game.score.home}
-										</div>
-										<div className="text-lg font-semibold">
-											{game.score.away}
-										</div>
+									<div className="text-lg font-semibold">{item.result}</div>
+										<div className="text-lg font-semibold">{item.score}</div>
 									</div>
 								</div>
 							</div>
@@ -236,10 +202,10 @@ export default function BucNation() {
 			</TabsContent>
 			<TabsContent value="stats">
 				<h2 className="my-8 text-center text-xl font-bold sm:text-left">
-					Player Stats (coming soon)
+					Player Stats
 				</h2>
-				<div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-					{stats.map((player, index) => (
+				<div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3">
+					{stats.stats.map((player, index: number) => (
 						<div
 							key={index}
 							className="flex flex-col gap-6 rounded-lg bg-white p-6 shadow-md dark:bg-gray-950"
@@ -247,10 +213,10 @@ export default function BucNation() {
 							<div className="flex items-center justify-between">
 								<div className="flex items-center gap-4">
 									<h3 className="text-xl font-bold">
-										{player.firstName[0].toUpperCase()}. {player.lastName}
+									{player.firstName[0]}. {player.lastName}
 									</h3>
 									<span className="text-sm text-gray-500 dark:text-gray-400">
-										{player.position} | {player.height}
+										{`MPG: ${player.minutes}`}
 									</span>
 								</div>
 							</div>
@@ -259,41 +225,30 @@ export default function BucNation() {
 									<span className="text-sm text-gray-500 dark:text-gray-400">
 										Pts
 									</span>
-									<span className="font-medium">
-										{player.points.toFixed(1)}
-									</span>
+									<span className="font-medium">{player.points}</span>
 								</div>
 								<div className="flex flex-col items-end">
 									<span className="text-sm text-gray-500 dark:text-gray-400">
 										Reb
 									</span>
-									<span className="font-medium">
-										{player.rebounds.toFixed(1)}
-									</span>
+									<span className="font-medium">{player.rebounds}</span>
 								</div>
 								<div className="flex flex-col items-end">
 									<span className="text-sm text-gray-500 dark:text-gray-400">
 										Ast
 									</span>
-									<span className="font-medium">
-										{player.assists.toFixed(1)}
-									</span>
+									<span className="font-medium">{player.assists}</span>
 								</div>
 								<div className="flex flex-col items-end">
 									<span className="text-sm text-gray-500 dark:text-gray-400">
-										Blk
+										3pt%
 									</span>
-									<span className="font-medium">
-										{player.blocks.toFixed(1)}
-									</span>
-								</div>
-								<div className="flex flex-col items-end">
+									<span className="font-medium">{player.threePercent}</span>
+								</div><div className="flex flex-col items-end">
 									<span className="text-sm text-gray-500 dark:text-gray-400">
-										Stl
+										Fg%
 									</span>
-									<span className="font-medium">
-										{player.steals.toFixed(1)}
-									</span>
+									<span className="font-medium">{player.fgPercent}</span>
 								</div>
 							</div>
 						</div>
