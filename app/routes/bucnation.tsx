@@ -1,5 +1,4 @@
 import {
-	type HeadersFunction,
 	type LoaderFunctionArgs,
 	type ActionFunctionArgs,
 	json,
@@ -74,10 +73,6 @@ export const meta: MetaFunction = ({ data }) => [
 	},
 ]
 
-export const headers: HeadersFunction = () => ({
-	// your headers here
-})
-
 export const loader = async ({ request }: LoaderFunctionArgs) => {
 	const hoopsApi = process.env.HOOPS_API;
 	const responsePromises = await Promise.all([
@@ -102,7 +97,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 	return null
 }
 
-const heightFromInches = (total: number) => {
+export const heightFromInches = (total: number) => {
 	const feet = Math.floor(total / 12)
 	const inches = total % 12
 	return `${feet}'${inches}"`
@@ -184,7 +179,7 @@ export default function BucNation() {
 											<AvatarFallback>{item.vsat}</AvatarFallback>
 										</Avatar>
 										<div>
-											<h3 className="text-lg font-semibold">{item.opponent}</h3>
+											<h3 className="text-lg font-semibold">{item.vsat} {item.opponent}</h3>
 											<p className="text-gray-500 dark:text-gray-400">
 												{item.date}
 											</p>
