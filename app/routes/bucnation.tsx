@@ -1,6 +1,4 @@
 import {
-	type LoaderFunctionArgs,
-	type ActionFunctionArgs,
 	json,
 } from '@remix-run/node'
 import {
@@ -73,7 +71,7 @@ export const meta: MetaFunction = ({ data }) => [
 	},
 ]
 
-export const loader = async ({ request }: LoaderFunctionArgs) => {
+export const loader = async () => {
 	const hoopsApi = process.env.HOOPS_API;
 	const responsePromises = await Promise.all([
 		fetch(`${hoopsApi}/api/etsu/roster`),
@@ -84,17 +82,12 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 	const responseData = (await Promise.all(
 		responsePromises.map(response => response.json()),
 	)) as [RosterApiRes, ScheduleApiRes, StatsApiRes]
-	// console.log('LOG: loaderData', responseData)
 
 	return json({
 		roster: responseData[0],
 		schedule: responseData[1],
 		stats: responseData[2],
 	})
-}
-
-export const action = async ({ request }: ActionFunctionArgs) => {
-	return null
 }
 
 export const heightFromInches = (total: number) => {
