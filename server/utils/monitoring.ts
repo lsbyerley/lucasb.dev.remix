@@ -36,6 +36,13 @@ export function init() {
 				return null
 			}
 
+			// Check if the event contains an HTTP context with a response status code
+			// 405 Method Not Allowed
+			if (event.contexts?.response?.status_code === 405) {
+				// Return null to drop the event and prevent it from being sent to Sentry
+				return null;
+			}
+
 			return event
 		},
 	})

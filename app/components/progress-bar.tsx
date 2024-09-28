@@ -18,8 +18,7 @@ function EpicProgress() {
 		if (!ref.current) return
 		if (delayedPending) setAnimationComplete(false)
 
-		const animationPromises = ref.current
-			.getAnimations()
+		const animationPromises = ref.current?.getAnimations()
 			.map(({ finished }) => finished)
 
 		void Promise.allSettled(animationPromises).then(() => {
