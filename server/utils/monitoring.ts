@@ -20,7 +20,6 @@ export function init() {
 		integrations: [
 			Sentry.httpIntegration(),
 			Sentry.prismaIntegration(),
-			Sentry.httpContextIntegration(),
 			nodeProfilingIntegration(),
 		],
 		tracesSampler(samplingContext) {
