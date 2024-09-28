@@ -20,6 +20,7 @@ export function init() {
 		integrations: [
 			Sentry.httpIntegration(),
 			Sentry.prismaIntegration(),
+			Sentry.httpContextIntegration(),
 			nodeProfilingIntegration(),
 		],
 		tracesSampler(samplingContext) {
@@ -34,6 +35,13 @@ export function init() {
 			//  note that name of header here is case-sensitive
 			if (event.request?.headers?.['x-healthcheck'] === 'true') {
 				return null
+			}
+
+			// Check if the event contains an HTTP context with a response status code
+			// 405 Method Not Allowed
+			if (event.contexts?.response?.status_code === 405) {
+				// Return null to drop the event and prevent it from being sent to Sentry
+				return null;
 			}
 
 			return event
