@@ -1,6 +1,4 @@
-import {
-	json,
-} from '@remix-run/node'
+import { json } from '@remix-run/node'
 import {
 	type MetaFunction,
 	useLoaderData,
@@ -72,7 +70,7 @@ export const meta: MetaFunction = ({ data }) => [
 ]
 
 export const loader = async () => {
-	const hoopsApi = process.env.HOOPS_API;
+	const hoopsApi = process.env.HOOPS_API
 	const responsePromises = await Promise.all([
 		fetch(`${hoopsApi}/api/etsu/roster`),
 		fetch(`${hoopsApi}/api/etsu/schedule`),
@@ -172,14 +170,16 @@ export default function BucNation() {
 											<AvatarFallback>{item.vsat}</AvatarFallback>
 										</Avatar>
 										<div>
-											<h3 className="text-lg font-semibold">{item.vsat} {item.opponent}</h3>
+											<h3 className="text-lg font-semibold">
+												{item.vsat} {item.opponent}
+											</h3>
 											<p className="text-gray-500 dark:text-gray-400">
 												{item.date}
 											</p>
 										</div>
 									</div>
-									<div className="flex items-center gap-2">
-									<div className="text-lg font-semibold">{item.result}</div>
+									<div className="flex items-center gap-2 min-w-24 justify-end">
+										<div className="text-lg font-semibold">{item.result}</div>
 										<div className="text-lg font-semibold">{item.score}</div>
 									</div>
 								</div>
@@ -201,7 +201,7 @@ export default function BucNation() {
 							<div className="flex items-center justify-between">
 								<div className="flex items-center gap-4">
 									<h3 className="text-xl font-bold">
-									{player.firstName[0]}. {player.lastName}
+										{player.firstName[0]}. {player.lastName}
 									</h3>
 									<span className="text-sm text-gray-500 dark:text-gray-400">
 										{`MPG: ${player.minutes}`}
@@ -232,7 +232,8 @@ export default function BucNation() {
 										3pt%
 									</span>
 									<span className="font-medium">{player.threePercent}</span>
-								</div><div className="flex flex-col items-end">
+								</div>
+								<div className="flex flex-col items-end">
 									<span className="text-sm text-gray-500 dark:text-gray-400">
 										Fg%
 									</span>
