@@ -24,6 +24,8 @@ import SiteFooter from '#app/components/site-footer.js'
 import { useToast } from '#app/components/toaster.tsx'
 import { Button } from '#app/components/ui/button.tsx'
 import {
+	SheetDescription,
+	SheetTitle,
 	SheetTrigger,
 	SheetClose,
 	SheetContent,
@@ -226,6 +228,8 @@ function App() {
 							className="flex flex-col bg-gray-950 p-6 text-gray-50"
 							side="left"
 						>
+							<SheetTitle className='hidden sr-only'>site nav menu</SheetTitle>
+							<SheetDescription className='hidden sr-only'>site nav menu open</SheetDescription>
 							<div className="mb-6 flex items-center justify-between">
 								<div className="flex items-center justify-center">
 									<Link to="/" className="group grid leading-snug">
